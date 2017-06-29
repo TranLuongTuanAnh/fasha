@@ -16,9 +16,9 @@ def index(request):
 
 @api_view(['POST'])
 def login(request):
-    username = request.data.get("username")
+    email = request.data.get("email")
     password = request.data.get("password")
-    user = authenticate(username=username,password=password)
+    user = authenticate(email=email,password=password)
     if not user:
         return Response({"error": "Login failed"}, status=HTTP_401_UNAUTHORIZED)
 
