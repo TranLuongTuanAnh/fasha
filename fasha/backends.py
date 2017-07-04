@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from rest_framework import authentication
 from django.contrib.auth.hashers import check_password
 
+
 from re import sub
 from rest_framework.authtoken.models import Token
 
@@ -43,7 +44,6 @@ class AuthenticationMiddleware(object):
             try:
                 token = sub('Token ', '', header_token)
                 token_obj = Token.objects.get(key = token)
-                print token_obj
                 request.user = token_obj.user
             except Token.DoesNotExist:
                 print "token does not exist"
