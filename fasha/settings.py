@@ -108,9 +108,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-#Authentication backends
 AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
+  'fasha.backends.AuthByMail',
+  'django.contrib.auth.backends.ModelBackend',
 )
 
 # Internationalization
