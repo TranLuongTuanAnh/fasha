@@ -9,7 +9,6 @@ class AuthByMail(object):
     """docstring for AuthByMail."""
 
     def authenticate(self,email=None,password=None):
-        print "authenticate"
         try:
             user = User.objects.get(email=email)
         except User.DoesNotExist:
