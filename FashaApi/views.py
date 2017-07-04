@@ -10,9 +10,14 @@ from pprint import pprint
 from rest_framework.decorators import api_view
 from django.contrib.auth import authenticate
 from rest_framework.status import HTTP_401_UNAUTHORIZED
+from rest_framework.authentication import TokenAuthentication
+from fasha.backends import AuthByMail
 
 def index(request):
-    return HttpResponse("Hello, world. You're at the polls index.")
+    if request.user.is_authenticated():
+        print request.user.username
+        return HttpResponse("success")
+    return HttpResponse({"error": "Login failed"}, status=HTTP_401_UNAUTHORIZED)
 
 @api_view(['POST'])
 def login(request):

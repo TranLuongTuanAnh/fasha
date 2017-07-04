@@ -56,6 +56,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'fasha.backends.AuthenticationMiddleware',
 ]
 
 ROOT_URLCONF = 'fasha.urls'
@@ -109,8 +111,8 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTHENTICATION_BACKENDS = (
-  'fasha.backends.AuthByMail',
   'django.contrib.auth.backends.ModelBackend',
+  'fasha.backends.AuthByMail',
 )
 
 # Internationalization
