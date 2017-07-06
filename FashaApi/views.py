@@ -12,12 +12,11 @@ from django.contrib.auth import authenticate
 from rest_framework.status import HTTP_401_UNAUTHORIZED
 from rest_framework.authentication import TokenAuthentication
 from fasha.backends import AuthByMail
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def index(request):
-    if request.user.is_authenticated():
-        print request.user.username
-        return HttpResponse("success")
-    return HttpResponse({"error": "Login failed"}, status=HTTP_401_UNAUTHORIZED)
+    return HttpResponse("success")
 
 @api_view(['POST'])
 def login(request):

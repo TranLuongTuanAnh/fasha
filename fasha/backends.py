@@ -5,6 +5,7 @@ from django.contrib.auth.hashers import check_password
 
 from re import sub
 from rest_framework.authtoken.models import Token
+from django.contrib.auth.models import AnonymousUser
 
 class AuthByMail(object):
     """docstring for AuthByMail."""
@@ -18,17 +19,6 @@ class AuthByMail(object):
         if check_password(password, user.password):
             return user
         return None
-    def get_user(request):
-        header_token = request.META.get('HTTP_AUTHORIZATION', None)
-        if header_token is not None:
-            try:
-                token = sub('Token ', '', request.META.get('HTTP_AUTHORIZATION', None))
-                token_obj = Token.objects.get(key = token)
-                request.user = token_obj.user
-            except Token.DoesNotExist:
-                pass
-        #This is now the correct user
-        print (request.user)
 
 class AuthenticationMiddleware(object):
 
@@ -46,9 +36,7 @@ class AuthenticationMiddleware(object):
                 token_obj = Token.objects.get(key = token)
                 request.user = token_obj.user
             except Token.DoesNotExist:
-                print "token does not exist"
-            #     pass
-            # #This is now the correct user
-            # print (request.user)
+                request.user = AnonymousUser()
+                pass
         else:
-            print "token none"
+            request.user = AnonymousUser()
