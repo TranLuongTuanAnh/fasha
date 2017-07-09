@@ -14,9 +14,9 @@ from rest_framework.authentication import TokenAuthentication
 from fasha.backends import AuthByMail
 from django.contrib.auth.decorators import login_required
 
-@login_required
+@login_required()
 def index(request):
-    return HttpResponse("success")
+    return Response("success")
 
 @api_view(['POST'])
 def login(request):
