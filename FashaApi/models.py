@@ -22,3 +22,17 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id','username','email','password')
+
+class Poster(models.Model):
+    def __init__(self, owner_mail, content, created=None):
+        self.owner_id = owner_id
+        self.content = content
+        self.created = created or datetime.now()
+
+class PosterSerializer(serializers.Serializer):
+    owner_id = serializers.EmailField()
+    content = serializers.CharField(max_length=200)
+    created = serializers.DateTimeField()
+
+    def create(self, validated_data):
+        return Poster(**validated_data)

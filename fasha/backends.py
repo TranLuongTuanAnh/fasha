@@ -6,6 +6,7 @@ from django.contrib.auth.hashers import check_password
 from re import sub
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import AnonymousUser
+from pprint import pprint
 
 class AuthByMail(object):
     """docstring for AuthByMail."""
@@ -39,4 +40,4 @@ class AuthenticationMiddleware(object):
                 request.user = AnonymousUser()
                 pass
         else:
-            request.user = AnonymousUser()
+            pass
