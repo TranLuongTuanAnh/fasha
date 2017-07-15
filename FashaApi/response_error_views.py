@@ -4,6 +4,8 @@ from rest_framework import status
 from django.shortcuts import render
 from rest_framework.views import APIView
 from django.http import JsonResponse
+from rest_framework.status import HTTP_401_UNAUTHORIZED
+from rest_framework.status import HTTP_400_BAD_REQUEST
 
 def not_authenticated(request,format='json'):
     return JsonResponse({'error': 'not_authenticated'}, status=HTTP_401_UNAUTHORIZED)
