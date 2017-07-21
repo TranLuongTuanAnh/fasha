@@ -19,7 +19,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 # @login_required()
 def index(request):
-    print "base dir path", BASE_DIR
     return JsonResponse({"success":"1"})
 
 @api_view(['POST'])
