@@ -3,3 +3,10 @@
 
 # binary files
 *.pyc
+
+# local dev data
+## image folder
+media/*
+
+# db.sqlite
+db.sqlite3

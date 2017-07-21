@@ -17,7 +17,7 @@ from fasha.backends import AuthByMail
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-@login_required()
+# @login_required()
 def index(request):
     return JsonResponse({"success":"1"})
 
@@ -58,7 +58,6 @@ class Poster(LoginRequiredMixin, APIView):
         serializer = PosterSerializer(data=request.data)
         if serializer.is_valid():
             poster = serializer.create(serializer.validated_data)
-            poster.save()
             json = serializer.data
             return JsonResponse(json,status=status.HTTP_201_CREATED)
         else:

@@ -137,3 +137,6 @@ STATIC_URL = '/static/'
 
 LOGIN_URL = '/FashaApi/not_authenticated/'
 LOGIN_REDIRECT_URL = '/FashaApi/not_authenticated/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
