@@ -3,3 +3,8 @@
 
 # binary files
 *.pyc
+
+# local dev data
+## image folder
+
+media/*

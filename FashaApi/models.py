@@ -6,6 +6,8 @@ from rest_framework.validators import UniqueValidator
 from django.contrib.auth.models import User
 from pprint import pprint
 from datetime import datetime
+from base64 import b64decode
+from django.core.files.base import ContentFile
 
 # Create your models here.
 class UserSerializer(serializers.ModelSerializer):
@@ -28,21 +30,22 @@ class Poster(models.Model):
     owner_id = models.EmailField(default='default')
     content = models.CharField(max_length=250)
     created = models.DateTimeField()
-    def __init__(self, owner_id, content, created=None):
-        super(Poster, self).__init__()
-        self.owner_id = owner_id
-        self.content = content
-        self.created = created or datetime.now()
+    image = models.ImageField(upload_to='images/%Y/%m/%d',default='/media/default/default_poster_image.jpg')
 
+    @classmethod
+    def create(cls, owner_id, content, image, created=None):
+        poster = cls(owner_id=owner_id,content=content,image=image,created=created or datetime.now())
+        return poster
 
 class PosterSerializer(serializers.Serializer):
     owner_id = serializers.EmailField(default='default')
     content = serializers.CharField(max_length=200,default='SOME STRING')
     created = serializers.DateTimeField(required=False)
+    image_data = serializers.CharField()
 
     def create(self, validated_data):
-        return Poster(**validated_data)
-
-class PosterImage(models.Model):
-    poster_id = models.IntegerField()
-    image = models.ImageField()
+        image_data = b64decode(validated_data['image_data'])
+        posterImage = ContentFile(image_data,'whatup.png')
+        poster = Poster.create(owner_id=validated_data['owner_id'],content=validated_data['content'],image=posterImage)
+        poster.save()
+        return poster
