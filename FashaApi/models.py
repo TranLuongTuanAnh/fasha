@@ -45,19 +45,17 @@ class PosterSerializer(serializers.Serializer):
     # for post
     image_data = serializers.CharField(required=False)
 
-    image_url = serializers.SerializerMethodField()
+    image_url = serializers.SerializerMethodField(required=False)
+
     def create(self, validated_data):
-        poster = None
         image_data = b64decode(validated_data['image_data'])
-        pprint(vars(validated_data))
-        if image_data is not None:
-            posterImage = ContentFile(image_data,'whatup.png')
-            poster = Poster.create(owner_id=validated_data['owner_id'],content=validated_data['content'],image=posterImage)
-        else:
-            poster = Poster.create(**validated_data)
+        posterImage = ContentFile(image_data,'whatup.png')
+        poster = Poster.create(owner_id=validated_data['owner_id'],content=validated_data['content'],image=posterImage)
         return poster
 
     def get_image_url(self, poster):
+        if type(poster) is not Poster:
+            return
         request = self.context.get('request')
         image_url = poster.image.url
         return request.build_absolute_uri(image_url)
