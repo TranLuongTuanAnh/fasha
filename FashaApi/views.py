@@ -66,7 +66,7 @@ class Poster(LoginRequiredMixin, APIView):
         if serializer.is_valid():
             poster = serializer.create(serializer.validated_data)
             poster.save()
-            json = serializer.data
-            return JsonResponse(json,status=status.HTTP_201_CREATED)
+            response = PosterSerializer(poster,context={"request": request})
+            return JsonResponse(response.data,status=status.HTTP_201_CREATED)
         else:
             return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
