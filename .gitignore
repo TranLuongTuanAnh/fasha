@@ -10,3 +10,6 @@ media/*
 
 # db.sqlite
 db.sqlite3
+
+# OS log
+.DS_Store
