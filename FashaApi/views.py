@@ -8,6 +8,7 @@ from rest_framework import status
 from django.contrib.auth.models import User
 from FashaApi.models import UserSerializer
 from models import PosterSerializer
+from models import Poster as PosterModel
 from pprint import pprint
 from rest_framework.decorators import api_view
 from django.contrib.auth import authenticate
@@ -53,12 +54,19 @@ class UserRegister(APIView):
             return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class Poster(LoginRequiredMixin, APIView):
+
+    def get(self,request,format='json'):
+        posters = PosterModel.objects.filter(owner_id=request.user.username)
+        serializer = PosterSerializer(posters,many=True,context={"request": request})
+        return JsonResponse(serializer.data, safe=False)
+
     def post(self,request,format='json'):
         request.data['owner_id'] = request.user.username
         serializer = PosterSerializer(data=request.data)
         if serializer.is_valid():
             poster = serializer.create(serializer.validated_data)
-            json = serializer.data
-            return JsonResponse(json,status=status.HTTP_201_CREATED)
+            poster.save()
+            response = PosterSerializer(poster,context={"request": request})
+            return JsonResponse(response.data,status=status.HTTP_201_CREATED)
         else:
             return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
